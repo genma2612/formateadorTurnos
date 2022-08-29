@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "postinstall": "ng build --output-path angularapp --aot --prod"
+    "postinstall": "ng build --output-path angularapp --aot --configuration production"
   },
   "private": true,
   "dependencies": {
