@@ -15,9 +15,9 @@ export class Formateador {
         let dni = array[1].split(" ", 1);
         let nombre = array[1].replace(dni[0] + " ", "");
         //console.log(array[3]);
-        if(array[3] !== "")
-            comprobante = array[3];
-
+        if(array.length == 4)
+            if(array[3] !== "")
+                comprobante = array[3];
         return new Turno(this.reemplazarDr(array[0]), nombre, dni[0],
         array[2], comprobante);
         //console.log(new Turno(this.reemplazarDr(array[0]), nombre, dni[0], array[2], comprobante));
