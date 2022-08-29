@@ -14,6 +14,8 @@ export class AppComponent {
   textoGuardado:string = ``;
 
   mandarAFormatear(textoGuardado:string){
+    if(this.arrayGuardado.length > 0)
+      this.arrayGuardado = [];
     this.arrayGuardado = this.nuevoFormateador.formatearTodos(textoGuardado);
   }
 }
