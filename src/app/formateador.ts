@@ -37,6 +37,29 @@ export class Formateador {
         return arrayRetorno;
     }
 
+    public filtrarYContarFormateados(turnos:any){
+        let arrayFiltrado = [];
+        let dxCount = 0;
+        let promoCount = 0;
+        let blanqCount = 0;
+        for (const turno of turnos) {
+            if(turno.tipo == "DX")
+            {
+                dxCount++;
+            }
+            else
+            {
+                if(turno.tipo == "Blanqueamiento")
+                    blanqCount++;
+                else
+                    promoCount++;
+                arrayFiltrado.push(turno);
+            }
+
+        }
+        return [arrayFiltrado, dxCount, promoCount, blanqCount];
+    }
+
     public reemplazarDr(doctor:string){
         switch (doctor) {
             case "VICTOR ALARCON":

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component } from '@angular/core';
 import { Turno } from './turno';
 import { Formateador } from './formateador';
 import { ClipboardService } from 'ngx-clipboard';
@@ -9,13 +9,19 @@ import Swal from 'sweetalert2'
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnChanges {
+export class AppComponent {
 
   title = 'FormatoTextoTurnos';
   nuevoFormateador = new Formateador();
   arrayGuardado: Turno[] = [];
+  arrayGuardadoFiltrado: any = [[], 0, 0, 0, ""];
   textoGuardado: string = ``;
   textoCopiado: any;
+  totalFiltrado: string = "";
+
+  retornoFecha = this.fechaDeHoy();
+
+  ///
 
   Toast = Swal.mixin({
     toast: true,
@@ -43,30 +49,46 @@ export class AppComponent implements OnChanges {
     if (this.arrayGuardado.length > 0)
       this.arrayGuardado = [];
     this.arrayGuardado = this.nuevoFormateador.formatearTodos(textoGuardado);
+    this.arrayGuardadoFiltrado = this.nuevoFormateador.filtrarYContarFormateados(this.arrayGuardado);
+    this.armadoDeCadenaTotales();
   }
+
+  armadoDeCadenaTotales() {
+    let cadenaTotales = "";
+    if (this.arrayGuardadoFiltrado[1] != 0)
+      cadenaTotales += this.arrayGuardadoFiltrado[1] + "dx ";
+    if (this.arrayGuardadoFiltrado[2] != 0)
+      cadenaTotales += this.arrayGuardadoFiltrado[2] + "dxpromo ";
+    if (this.arrayGuardadoFiltrado[3] != 0)
+      cadenaTotales += this.arrayGuardadoFiltrado[3] + "blanq";
+    this.arrayGuardadoFiltrado[4] = cadenaTotales;
+  }
+
+  fechaDeHoy(){
+    const today = new Date();
+    let mm = today.getMonth() + 1; // Months start at 0!
+    let mms = ""
+    let dd = today.getDate();
+    let dds = "";
+    if(dd < 10) 
+      dds = '0' + dd;
+    if(mm < 10) 
+      mms = '0' + mm; 
+    return dds + '/' + mms;
+  }
+
 
   constructor(private clipboardService: ClipboardService) { }
 
-  copyContent() {
+  copyContent(id: string) {
     //console.log(document.getElementById('turnos')?.innerText);
-    this.textoCopiado = document.getElementById('turnos')?.innerText;
+    this.textoCopiado = document.getElementById(id)?.innerText;
     //console.log(this.textoCopiado);
     this.clipboardService.copyFromContent(this.textoCopiado);
     this.Toast.fire({
       icon: 'success',
       title: 'Turnos copiados'
     })
-  }
-
-  allMsgChangeLogs: string[] = [];
-  allEmployeeChangeLogs: string[] = [];
-
-  ngOnChanges(changes: SimpleChanges) {
-    
-    //this.mandarAFormatear(this.textoGuardado);
-
-  console.log("Cambia algo, si si.");
-
   }
 
 }

@@ -12,12 +12,12 @@
         <div class="col-md-5">
             <textarea class="myTextArea" rows="23 resize: none;"
                 (input)="mandarAFormatear(textoGuardado)"
-                
                 [(ngModel)]="textoGuardado"></textarea>
         </div>
 
         <div class="col-md-7">
-            <table *ngIf="arrayNoVacio()" class="table table-striped table-bordered table-dark">
+            <table *ngIf="arrayNoVacio()" class="table table-striped
+                table-bordered table-dark">
                 <thead>
                     <tr>
                         <th>DNI</th>
@@ -51,8 +51,43 @@
                     </tr>
                 </tbody>
                 <div>
-                    <button class="btn btn-dark" (click)="copyContent()">Copiar</button>
-                  </div>
+                    <button class="btn btn-dark" (click)="copyContent('turnos')">Copiar</button>
+                </div>
+            </table>
+            <table *ngIf="arrayNoVacio()" class="table table-striped
+                table-bordered table-dark">
+                <thead>
+                    <tr>
+                        <th>FECHA</th>
+                        <th>DNI</th>
+                        <th>NOMBRE</th>
+                        <th>SEÑA</th>
+                        <th>TOTAL DÍA</th>
+                    </tr>
+                </thead>
+                <tbody id="turnosFiltrados">
+                    <tr *ngFor="let item of arrayGuardadoFiltrado[0] last as
+                        total">
+                        <td>
+                            {{retornoFecha}}
+                        </td>
+                        <td>
+                            {{item.dni}}
+                        </td>
+                        <td>
+                            {{item.nombre}}
+                        </td>
+                        <td>
+                            {{item.tipo}}
+                        </td>
+                        <td *ngIf="total">
+                            {{arrayGuardadoFiltrado[4]}}
+                        </td>
+                    </tr>
+                </tbody>
+                <div>
+                    <button class="btn btn-dark" (click)="copyContent('turnosFiltrados')">Copiar</button>
+                </div>
             </table>
         </div>
     </div>
@@ -65,3 +100,5 @@
 <!-- * * * * * * * * * * End of Placeholder * * * * * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 <router-outlet></router-outlet>
+<!-- Agregar 2da tabla para el forms
+FECHA - DNI - NOMBRE - SEÑA - TOTAL DIA-->
