@@ -1,7 +1,8 @@
 import { Turno } from "./turno";
+import { Component, Directive, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 
 export class Formateador {
-
+    
     public formatearUno(turno:string){
 
         let array = [];
