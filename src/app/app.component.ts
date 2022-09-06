@@ -1,15 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Turno } from './turno';
 import { Formateador } from './formateador';
 import { ClipboardService } from 'ngx-clipboard';
 import Swal from 'sweetalert2'
+import { json } from 'express';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   title = 'FormatoTextoTurnos';
   nuevoFormateador = new Formateador();
@@ -45,12 +46,34 @@ export class AppComponent {
     return !this.arrayVacio();
   }
 
+  arrayFiltradoVacio() {
+    return this.arrayGuardadoFiltrado[0].length == 0;
+  }
+
+  arrayFiltradoNoVacio() {
+    return !this.arrayFiltradoVacio();
+  }
+
   mandarAFormatear(textoGuardado: string) {
     if (this.arrayGuardado.length > 0)
       this.arrayGuardado = [];
     this.arrayGuardado = this.nuevoFormateador.formatearTodos(textoGuardado);
     this.arrayGuardadoFiltrado = this.nuevoFormateador.filtrarYContarFormateados(this.arrayGuardado);
     this.armadoDeCadenaTotales();
+    localStorage.setItem("cadenaTexto", textoGuardado);
+    localStorage.setItem("arrayGuardado", JSON.stringify(this.arrayGuardado));
+    localStorage.setItem("arrayGuardadoFiltrado", JSON.stringify(this.arrayGuardadoFiltrado));
+  }
+
+  borrarLocalStorage() {
+    localStorage.removeItem("arrayGuardado");
+    this.arrayGuardado = [];
+    localStorage.removeItem("arrayGuardadoFiltrado");
+    this.arrayGuardadoFiltrado[0] = [];
+  }
+
+  borrarAreaDeTexto() {
+    this.textoGuardado = "";
   }
 
   armadoDeCadenaTotales() {
@@ -64,16 +87,16 @@ export class AppComponent {
     this.arrayGuardadoFiltrado[4] = cadenaTotales;
   }
 
-  fechaDeHoy(){
+  fechaDeHoy() {
     const today = new Date();
     let mm = today.getMonth() + 1; // Months start at 0!
     let mms = ""
     let dd = today.getDate();
     let dds = "";
-    if(dd < 10) 
+    if (dd < 10)
       dds = '0' + dd;
-    if(mm < 10) 
-      mms = '0' + mm; 
+    if (mm < 10)
+      mms = '0' + mm;
     return dds + '/' + mms;
   }
 
@@ -89,6 +112,29 @@ export class AppComponent {
       icon: 'success',
       title: 'Turnos copiados'
     })
+  }
+
+  ngOnInit(): void {
+    if (localStorage.getItem("cadenaTexto") != null) {
+      let cadenaParseada: string | null = localStorage.getItem("cadenaTexto");
+      if (cadenaParseada != null) {
+        //console.log(cadenaParseada);
+        this.textoGuardado = cadenaParseada;
+      }
+    }
+    if (localStorage.getItem("arrayGuardado") != null) {
+      //console.log("Entró en el onInit");
+      let arrayParseado: string | null = localStorage.getItem("arrayGuardado");
+      if (arrayParseado != null) {
+        this.arrayGuardado = JSON.parse(arrayParseado);
+      }
+    }
+    if (localStorage.getItem("arrayGuardadoFiltrado") != null) {
+      let arrayFiltradoParseado: string | null = localStorage.getItem("arrayGuardadoFiltrado");
+      if (arrayFiltradoParseado != null) {
+        this.arrayGuardadoFiltrado = JSON.parse(arrayFiltradoParseado);
+      }
+    }
   }
 
 }
