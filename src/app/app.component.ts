@@ -36,6 +36,14 @@ export class AppComponent implements OnInit {
     }
   })
 
+  swalWithBootstrapButtons = Swal.mixin({
+    customClass: {
+      confirmButton: 'btn btn-success',
+      cancelButton: 'btn btn-danger'
+    },
+    buttonsStyling: false
+  })
+
   tamañoDeArrayGuardado = this.arrayGuardado.length;
 
   arrayVacio() {
@@ -65,15 +73,108 @@ export class AppComponent implements OnInit {
     localStorage.setItem("arrayGuardadoFiltrado", JSON.stringify(this.arrayGuardadoFiltrado));
   }
 
+  mandarAFormatearConBoton(textoGuardado: string) {
+    if (textoGuardado != "") {
+      if (localStorage.getItem("arrayGuardado") == null) {
+        this.mandarAFormatear(textoGuardado);
+        this.Toast.fire({
+          icon: 'success',
+          title: 'Tablas generadas'
+        })
+      }
+      else {
+        this.Toast.fire({
+          icon: 'info',
+          title: 'Ya hay tablas generadas'
+        })
+    }
+    }
+    else {
+      this.Toast.fire({
+        icon: 'error',
+        title: 'No hay texto para generar las tablas'
+      })
+    }
+
+  }
+
   borrarLocalStorage() {
-    localStorage.removeItem("arrayGuardado");
-    this.arrayGuardado = [];
-    localStorage.removeItem("arrayGuardadoFiltrado");
-    this.arrayGuardadoFiltrado[0] = [];
+    if (localStorage.getItem("arrayGuardado") != null) {
+      this.swalWithBootstrapButtons.fire({
+        title: 'Borrar tablas?',
+        text: "Esta acción no se puede deshacer...",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Si, borrar!',
+        cancelButtonText: 'No, cancelar!',
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          localStorage.removeItem("arrayGuardado");
+          this.arrayGuardado = [];
+          localStorage.removeItem("arrayGuardadoFiltrado");
+          this.arrayGuardadoFiltrado[0] = [];
+          this.swalWithBootstrapButtons.fire(
+            'Confirmado!',
+            'Las tablas fueron borradas',
+            'success'
+          )
+        } else if (
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+          this.swalWithBootstrapButtons.fire(
+            'Cancelado!',
+            'Las tablas no se borraron',
+            'error'
+          )
+        }
+      })
+    }
+    else {
+      this.Toast.fire({
+        icon: 'error',
+        title: 'No hay tablas para borrar'
+      })
+
+    }
   }
 
   borrarAreaDeTexto() {
-    this.textoGuardado = "";
+    if (this.textoGuardado != "") {
+      this.swalWithBootstrapButtons.fire({
+        title: 'Limpiar el área de texto?',
+        text: "Esta acción no se puede deshacer...",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Si, borrar!',
+        cancelButtonText: 'No, cancelar!',
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.textoGuardado = "";
+          localStorage.removeItem("cadenaTexto");
+          this.swalWithBootstrapButtons.fire(
+            'Confirmado!',
+            'El área de texto se limpió',
+            'success'
+          )
+        } else if (
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+          this.swalWithBootstrapButtons.fire(
+            'Cancelado!',
+            'El texto no se borró',
+            'error'
+          )
+        }
+      })
+    }
+    else {
+      this.Toast.fire({
+        icon: 'info',
+        title: 'El área de texto está vacía'
+      })
+    }
   }
 
   armadoDeCadenaTotales() {
