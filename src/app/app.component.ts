@@ -24,6 +24,10 @@ export class AppComponent implements OnInit {
 
   ///
 
+
+
+  ///
+
   Toast = Swal.mixin({
     toast: true,
     position: 'top-end',
