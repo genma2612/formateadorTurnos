@@ -195,14 +195,14 @@ export class AppComponent implements OnInit {
   fechaDeHoy() {
     const today = new Date();
     let mm = today.getMonth() + 1; // Months start at 0!
-    let mms = ""
     let dd = today.getDate();
-    let dds = "";
+    let retorno:string = "";
     if (dd < 10)
-      dds = '0' + dd;
+      retorno += "0";
+    retorno += dd + '/';
     if (mm < 10)
-      mms = '0' + mm;
-    return dds + '/' + mms;
+      retorno += "0";
+    return retorno += mm;
   }
 
 
