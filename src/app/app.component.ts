@@ -3,6 +3,7 @@ import { Turno } from './turno';
 import { Formateador } from './formateador';
 import { ClipboardService } from 'ngx-clipboard';
 import Swal from 'sweetalert2'
+import { readFileSync } from 'fs';
 import { json } from 'express';
 
 @Component({
@@ -19,7 +20,6 @@ export class AppComponent implements OnInit {
   textoGuardado: string = ``;
   textoCopiado: any;
   totalFiltrado: string = "";
-
   retornoFecha = this.fechaDeHoy();
 
   ///
@@ -220,6 +220,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //console.log(this.placeholderPrincipal);
     if (localStorage.getItem("cadenaTexto") != null) {
       let cadenaParseada: string | null = localStorage.getItem("cadenaTexto");
       if (cadenaParseada != null) {
@@ -241,5 +242,7 @@ export class AppComponent implements OnInit {
       }
     }
   }
+  //placeholderPrincipal= $('#textarea').attr('placeholder', 'hello' + '\n' + 'world');
+  //placeholderPrincipal = 'Agregar un turno sin título ni dirección, dejando&#10;una línea vacía entre cada uno.&#10;Por ejemplo:&#10;&#10;Doctor: FELICITAS GONZALEZ ENDODONCIA&#10;Paciente: 11111111 Natalia Natalia&#10;Hora(s): 12/09/2023 13:50&#10;[#XXXXXXXXXXX] (N° de comprobante opcional)&#10;&#10;Doctor: CELESTE BELLO ODONTPEDIATRIA Y GENERAL&#10;Paciente: 22222222 Juan Pérez&#10;Hora(s): 12/12/2023 12:00&#10;&#10;Doctor: ODONTOLOGIA GENERAL&#10;Paciente: 33333333 Pedro García&#10;Hora(s): 12/12/2023 14:00&#10;[#XXXXXXXXXXX] (N° de comprobante opcional)&#10;';
 
 }

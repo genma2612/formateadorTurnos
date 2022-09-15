@@ -1,48 +1,43 @@
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * The content below * * * * * * * * * * * -->
-<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * -->
-<!-- * * * * * * * * * * and can be replaced. * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * Delete the template below * * * * * * * * * * -->
-<!-- * * * * * * * to get started with your project! * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 <div class="container-flex p-3 mb-2 bg-dark text-white">
-
     <div class="row">
-        <div class="col-md-5">
-            <textarea class="myTextArea" 
-            placeholder="Agregar un turno sin título ni dirección, dejando una línea vacía entre cada uno.
+        <div class="col-md-4">
+            <textarea class="myTextArea"
+                placeholder="Agregar un turno sin título ni dirección, dejando
+una línea vacía entre cada uno.
 Por ejemplo:
 
 Doctor: FELICITAS GONZALEZ ENDODONCIA
 Paciente: 11111111 Natalia Natalia
-Hora(s): 12/09/2023 13:50 
-[#XXXXXXXXXXX] (Cod. de comprobante opcional si fuese señado)
+Hora(s): 12/09/2023 13:50
+[#XXXXXXXXXXX] (N° de comprobante opcional)
 
 Doctor: CELESTE BELLO ODONTPEDIATRIA Y GENERAL
 Paciente: 22222222 Juan Pérez
-Hora(s): 12/12/2023 12:00 
+Hora(s): 12/12/2023 12:00
 
 Doctor: ODONTOLOGIA GENERAL
 Paciente: 33333333 Pedro García
-Hora(s): 12/12/2023 14:00 
-[#XXXXXXXXXXX] (Cod. de comprobante opcional si fuese señado)
-
-            " 
-            rows="23 resize: none;"
+Hora(s): 12/12/2023 14:00
+[#XXXXXXXXXXX] (N° de comprobante opcional)"
+                rows="23 resize: none;"
                 (input)="mandarAFormatear(textoGuardado)"
                 [(ngModel)]="textoGuardado"></textarea>
             <div class="btn-group">
-                <button class="btn btn-dark" (click)="borrarAreaDeTexto()">Borrar texto</button>
-                <button class="btn btn-dark" (click)="mandarAFormatearConBoton(textoGuardado)">Volver a generar</button>
-                <button class="btn btn-dark" (click)="borrarLocalStorage()">Borrar tablas</button>
+                <button class="btn btn-dark" (click)="borrarAreaDeTexto()">Borrar
+                    texto</button>
+                <button class="btn btn-dark"
+                    (click)="mandarAFormatearConBoton(textoGuardado)">Volver a
+                    generar</button>
+                <button class="btn btn-dark" (click)="borrarLocalStorage()">Borrar
+                    tablas</button>
             </div>
         </div>
-        <div class="col-md-7">
+        <div class="col-md-8">
             <table *ngIf="arrayNoVacio()" class="table table-striped
                 table-bordered table-dark">
                 <thead>
                     <tr>
+                        <th>FECHA</th>
                         <th>DNI</th>
                         <th>Nombre</th>
                         <th>Hora</th>
@@ -52,25 +47,15 @@ Hora(s): 12/12/2023 14:00
                     </tr>
                 </thead>
                 <tbody id="turnos">
-                    <tr *ngFor="let item of arrayGuardado">
-                        <td>
-                            {{item.dni}}
-                        </td>
-                        <td>
-                            {{item.nombre}}
-                        </td>
-                        <td>
-                            {{item.hora}}
-                        </td>
-                        <td>
-                            {{item.tipo}}
-                        </td>
-                        <td>
-                            {{item.doctor}}
-                        </td>
-                        <td>
-                            {{item.comprobante}}
-                        </td>
+                    <tr *ngFor="let item of arrayGuardado first as primero">
+                        <td *ngIf="primero; else elseBlock">{{retornoFecha}}</td>
+                        <ng-template #elseBlock><td></td></ng-template>
+                        <td>{{item.dni}}</td>
+                        <td>{{item.nombre}}</td>
+                        <td>{{item.hora}}</td>
+                        <td>{{item.tipo}}</td>
+                        <td>{{item.doctor}}</td>
+                        <td>{{item.comprobante}}</td>
                     </tr>
                 </tbody>
                 <div>
@@ -92,38 +77,19 @@ Hora(s): 12/12/2023 14:00
                 <tbody id="turnosFiltrados">
                     <tr *ngFor="let item of arrayGuardadoFiltrado[0] last as
                         total">
-                        <td>
-                            {{retornoFecha}}
-                        </td>
-                        <td>
-                            {{item.dni}}
-                        </td>
-                        <td>
-                            {{item.nombre}}
-                        </td>
-                        <td>
-                            {{item.tipo}}
-                        </td>
-                        <td *ngIf="total">
-                            {{arrayGuardadoFiltrado[4]}}
-                        </td>
+                        <td> {{retornoFecha}}</td>
+                        <td>{{item.dni}}</td>
+                        <td>{{item.nombre}}</td>
+                        <td>{{item.tipo}}</td>
+                        <td *ngIf="total">{{arrayGuardadoFiltrado[4]}}</td>
                     </tr>
                 </tbody>
                 <div>
-                    <button class="btn btn-dark"
-                        (click)="copyContent('turnosFiltrados')">Copiar</button>
+                    <button class="btn
+                        btn-dark"(click)="copyContent('turnosFiltrados')">Copiar</button>
                 </div>
             </table>
         </div>
     </div>
 </div>
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * The content above * * * * * * * * * * * -->
-<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * -->
-<!-- * * * * * * * * * * and can be replaced. * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * End of Placeholder * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 <router-outlet></router-outlet>
-<!-- Agregar 2da tabla para el forms
-FECHA - DNI - NOMBRE - SEÑA - TOTAL DIA-->
