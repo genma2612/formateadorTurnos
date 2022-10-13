@@ -1,0 +1,16 @@
+Agregar un turno sin título ni dirección, dejando una línea vacía entre cada uno.
+Por ejemplo:
+
+Doctor: FELICITAS GONZALEZ ENDODONCIA
+Paciente: 11111111 Natalia Natalia
+Hora(s): 12/09/2023 13:50 
+[#XXXXXXXXXXX] (Cod. de comprobante opcional si fuese señado)
+
+Doctor: CELESTE BELLO ODONTPEDIATRIA Y GENERAL
+Paciente: 22222222 Juan Pérez
+Hora(s): 12/12/2023 12:00 
+
+Doctor: ODONTOLOGIA GENERAL
+Paciente: 33333333 Pedro García
+Hora(s): 12/12/2023 14:00 
+[#XXXXXXXXXXX] (Cod. de comprobante opcional si fuese señado)
