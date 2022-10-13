@@ -51,7 +51,7 @@ Hora(s): 12/12/2023 14:00
                         <td *ngIf="primero; else elseBlock">{{retornoFecha}}</td>
                         <ng-template #elseBlock><td></td></ng-template>
                         <td>{{item.dni}}</td>
-                        <td>{{item.nombre | lowercase}}</td>
+                        <td>{{item.nombre | titlecase}}</td>
                         <td>{{item.hora}}</td>
                         <td>{{item.tipo}}</td>
                         <td>{{item.doctor}}</td>
