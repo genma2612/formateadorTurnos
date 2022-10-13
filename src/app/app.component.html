@@ -79,7 +79,7 @@ Hora(s): 12/12/2023 14:00
                         total">
                         <td> {{retornoFecha}}</td>
                         <td>{{item.dni}}</td>
-                        <td>{{item.nombre | lowercase}}</td>
+                        <td>{{item.nombre | titlecase}}</td>
                         <td>{{item.tipo}}</td>
                         <td *ngIf="total">{{arrayGuardadoFiltrado[4]}}</td>
                     </tr>
